@@ -18,7 +18,7 @@
   - [Retorna uma proposta](#Retorna-uma-proposta)
 - [Dúvidas](#Duvidas)
 
-## [Requisitos](https://readme.so/pt/editor#Requisitos)
+## Requisitos
 
 - docker
 - docker-compose
