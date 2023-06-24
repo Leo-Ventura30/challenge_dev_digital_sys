@@ -13,10 +13,6 @@ class CustomersViewSet(viewsets.ModelViewSet):
     serializer_class = CustomersSerializer
     permission_classes = [IsAuthenticated,]
 
-    def perform_create(self, serializer):
-        proposal = serializer.save()
-        approve_proposal.apply_async((proposal.id,), countdown=10)
-
     def get_permissions(self):
         if self.action == 'create':
             return [AllowAny(), ]
