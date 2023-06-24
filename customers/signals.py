@@ -9,7 +9,7 @@ import random
 @receiver(pre_save, sender=Customers)
 def customers_signal(sender, instance, **kwargs):
     if instance.status == 'em_analise' and instance.score == 0:
-        instance.score = 800
+        instance.score = random.randint(1, 999)
 
 
 @receiver(post_save, sender=Customers)
