@@ -7,7 +7,7 @@ const DefaultButton = (props, { name }) => (
       width: "320px",
       border: 0,
     }}
-    required
+    // required
     {...props}
   />
 );

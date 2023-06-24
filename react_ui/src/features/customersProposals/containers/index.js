@@ -5,7 +5,7 @@ const ProposalContainer = ({ data, customerData, onChange, onSubmit }) => (
     <div>
       <HeaderProposals />
     </div>
-    <form style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
       <DefaultButton
         id="full_name"
         name={"Nome completo"}
@@ -36,11 +36,10 @@ const ProposalContainer = ({ data, customerData, onChange, onSubmit }) => (
         value={data.value}
         type={"number"}
       />
-      <button style={{ width: "100%", padding: 6 }} onSubmit={() => onSubmit()}>
+      <button style={{ width: "100%", padding: 6 }} onClick={() => onSubmit()}>
         Enviar proposta
       </button>
-    </form>
-
+    </div>
     {customerData && (
       <div
         style={{
