@@ -22,7 +22,7 @@ class Customers(models.Model):
     approved_value = models.DecimalField(verbose_name='Valor aprovado', default=0, max_digits=12,
                                          decimal_places=2, editable=False, help_text='Valor aprovado pelo banco.')
     status = models.CharField(
-        verbose_name='Status', default=STATUS_TYPE[3][1], choices=STATUS_TYPE, editable=False, help_text='Status da solicitação de empréstimo.')
+        verbose_name='Status', default=STATUS_TYPE[3][0], choices=STATUS_TYPE, editable=False, help_text='Status da solicitação de empréstimo.')
     score = models.IntegerField(verbose_name='Pontuação', default=0, editable=False,
                                 help_text='Pontuação do cliente gerada automaticamente.')
     created_at = models.DateTimeField(
