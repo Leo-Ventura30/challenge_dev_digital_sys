@@ -1,0 +1,71 @@
+version: '3'
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    command: rabbitmq-server  
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+        - RABBITMQ_DEFAULT_USER=guest
+        - RABBITMQ_DEFAULT_PASS=guest  
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+
+  db:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+  web:
+    build: .
+    restart: always
+    command:
+      - /bin/sh
+      - -c 
+      - |
+        python manage.py makemigrations
+        python manage.py migrate
+        python manage.py createsuperuser --no-input
+        python manage.py runserver 0.0.0.0:8000
+        
+    volumes:
+      - .:/challenge_dev_digital_sys
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin 
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@email.com  
+    depends_on:
+      - db
+
+  celery:
+    restart: always
+    build: .
+    command: celery -A challenge_dev_digital_sys worker -l info
+    depends_on:
+      - rabbitmq
+
+  react:
+    restart: always
+    build: ./react_ui/.
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./react_ui/src:/home/node/react/src
+    depends_on:
+      - web
+    # command: npm start
+
+volumes:
+  postgres_data:      
